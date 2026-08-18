@@ -44,6 +44,31 @@ spec:
 5. $ kubectl apply -f iprange.yaml   
    
 # 3. create a namespace kubectl create namespace traefik-system
-# 4. Step 3 — Set up RBAC (ServiceAccount, ClusterRole, ClusterRoleBinding)
-  # 1. 
+# 4. Step 3 — Set up RBAC (ServiceAccount, ClusterRole, ClusterRoleBinding) # creata file to deploy the service account and cluster role binding. refer the filename **rbac_cluster_role**
+  # 1. kubectl apply -f traefik-rbac.yaml
+  [root@k8s-master uat]# kubectl create -f rbac.yaml
+serviceaccount/traefik-account created
+clusterrole.rbac.authorization.k8s.io/traefik-role created
+clusterrolebinding.rbac.authorization.k8s.io/traefik-role-binding created
+[root@k8s-master uat]# 
 
+# Step 4 — Install Traefik's CRDs (IngressRoute, Middleware, etc.) # now lets install the traefik CRD to let k8s to understand traefik resource , as treafik is not native solution for k8s.
+ kubectl create -f  kubernetes-crd-definition-v1.yml # or refer the file kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.1/docs/content/reference/dynamic-configuration/kubernetes-crd-definition-v1.yml
+
+ 
+customresourcedefinition.apiextensions.k8s.io/ingressroutes.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/ingressroutetcps.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/ingressrouteudps.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/middlewares.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/middlewaretcps.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/serverstransports.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/serverstransporttcps.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/tlsoptions.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/tlsstores.traefik.io created
+customresourcedefinition.apiextensions.k8s.io/traefikservices.traefik.io created
+
+# You should see ingressroutes.traefik.io, middlewares.traefik.io, tlsoptions.traefik.io, etc.
+4. [root@k8s-master uat]# kubectl create  -f configmap.yaml
+configmap/traefik-config created
+
+## Step 6 — Deploy Traefik itself (Deployment)
