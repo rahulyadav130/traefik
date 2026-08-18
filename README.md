@@ -72,3 +72,14 @@ customresourcedefinition.apiextensions.k8s.io/traefikservices.traefik.io created
 configmap/traefik-config created
 
 ## Step 6 — Deploy Traefik itself (Deployment)
+
+### refer the file for the treafik deployment. # deployment
+Now, Lets deploy a service for the traefik deployment to listen the ingress traeffic # refer the file name as service
+
+[root@k8s-master uat]# kubectl get svc -n traefik
+NAME      TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)                                     AGE
+traefik   LoadBalancer   10.109.128.20   192.168.1.100   80:31461/TCP,443:30318/TCP,8080:32095/TCP   10d
+
+
+
+
